@@ -1,13 +1,14 @@
 import util.ai_api
 import util.bot_handler
-from creds.secrets import discordToken
+import os
+import logging
 
-
+logging.basicConfig(filename='bot.log', level=logging.INFO)
 
 def start_bot():
-    api_handler = util.ai_api.GptApiHandler()
+    api_handler = util.ai_api.GptApiHandler(os.getenv("GPTKEY"))
     api_handler.initialize_api()
-    bot_handler = util.bot_handler.Bot_Handler(discordToken)
+    bot_handler = util.bot_handler.Bot_Handler(os.getenv("DISCORDTOKEN"))
     return api_handler, bot_handler
 
 
@@ -18,6 +19,7 @@ if __name__ == "__main__":
     @bot.command(name='backstory', help='Creates a backstory for a character.  Specify Gender, race, class, name, optional details. ie: '
                                         ' Male, Half-Orc, Paladin, Clem, "From Neverwinter"')
     async def create_backstory(ctx, gender, race, clss, name, opt=None):
+        logging.info(f"request from {ctx.author.name}.  With variables {gender}, {race}, {clss}, {name}, {opt}")
         answer = api_handler.call_api(gender, race, clss, name, optional=opt)
         await ctx.channel.send(answer.choices[0].text)
 

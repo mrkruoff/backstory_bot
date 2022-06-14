@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 
+
 # Distribution / packaging
 .Python
 build/
@@ -39,3 +40,6 @@ env.bak/
 venv.bak/
 .idea/
 
+
+# logs
+bot.log

@@ -1,10 +1,10 @@
-import creds.secrets
 import openai
+import logging
 
 
 class GptApiHandler():
-    def __init__(self, key=None):
-        self.secret = creds.secrets.key if not key else key
+    def __init__(self, key):
+        self.secret = key
         self.base_string = "Create a backstory for a character with the following details \n" \
                            " gender: {} \n race: {} \n class: {} \n name: {}"
         self.optional_base_string = self.base_string + "\n optional details: {}"
@@ -17,7 +17,7 @@ class GptApiHandler():
             prompt = self.base_string.format(gender, race, char_class, name)
         else:
             prompt = self.optional_base_string.format(gender, race, char_class, name, optional)
-        print(prompt)
+        logging.info(prompt)
         response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0.7, max_tokens=500)
         return response
 
