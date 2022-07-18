@@ -17,10 +17,11 @@ if __name__ == "__main__":
     bot = discord_handler.get_bot()
 
     @bot.command(name='backstory', help='Creates a backstory for a character.  Specify Gender, race, class, name, optional details. ie: '
-                                        ' Male, Half-Orc, Paladin, Clem, "From Neverwinter"')
-    async def create_backstory(ctx, gender, race, clss, name, opt=None):
-        logging.info(f"request from {ctx.author.name}.  With variables {gender}, {race}, {clss}, {name}, {opt}")
-        answer = api_handler.call_api(gender, race, clss, name, optional=opt)
+                                        ' Male, Half-Orc, Paladin, Clem, "From Neverwinter", trauma')
+    async def create_backstory(ctx, gender, race, clss, name, opt=None, trauma=None):
+        logging.info(f"request from {ctx.author.name}.  With variables {gender}, {race}, {clss}, "
+                     f"{name}, {opt}, {trauma}")
+        answer = api_handler.call_api(gender, race, clss, name, optional=opt, trauma=trauma)
         await ctx.channel.send(answer.choices[0].text)
 
     discord_handler.start_discord_bot()
